@@ -46,6 +46,7 @@ No argument, it only lists existing Odoo databases, and perform a 'fake' login w
 The only goal of this method is to force Odoo to initialize all of its instances. For example, after restarting Odoo server without precising any database (this avoid some issues when using Web API, for custom UI or other purposes).
 
 **other_method_names(*args, **kwargs)**
+
 For any other methods, the object will execute the following command (as you would do with pure xmlrpclib call):
 
 xmlrpc_server.execute_kw(db, uid, password, model, method_name, args, kwargs)
