@@ -39,9 +39,7 @@ The constructor: it tries to authenticate to the instance using the information 
 * model: (string) the ORM model (with 'dot' synthax) you want to query)
 * returns: self, so you can chain with a call to the ORM
 
-
     ping_db()
-
 No argument, it only lists existing Odoo databases, and perform a 'fake' login with credentials login:'ping', password: 'ping'.
 
 The only goal of this method is to force Odoo to initialize all of its instances. For example, after restarting Odoo server without precising any database (this avoid some issues when using Web API, for custom UI or other purposes).
