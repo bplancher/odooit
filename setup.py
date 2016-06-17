@@ -23,7 +23,7 @@ from distutils.core import setup
 setup(
   name='odooit',
   packages=['odooit'],  # this must be the same as the name above
-  version='0.1',
+  version='0.2',
   description='Tools to interact with an Odoo instance using XML-RPC protocol',
   author='Bruno PLANCHER',
   author_email='bruno.plancher@gmail.com',

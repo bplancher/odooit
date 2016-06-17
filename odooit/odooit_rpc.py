@@ -24,14 +24,15 @@ import time
 
 
 class OdooITRPC(object):
-    def __init__(self, env, db, user, pwd, debug=False):
+    def __init__(self, env, db, user, pwd, debug=False, new_api=False):
         self.env = env
         self.db = db
         self.user = user
         self.pwd = pwd
         self.debug = debug
         self.model = False
-        self.get_connection_infos()
+        self.host = self.sock_common = self.sock_db = self.sock = self.uid = None
+        self.get_connection_infos(new_api=new_api)
 
     def get_wkf_state(self, model, ids):
         ids = ids if isinstance(ids, list) else [ids]
@@ -47,12 +48,15 @@ class OdooITRPC(object):
         ret = self.on_change_res_id(False, record_id, {'template_id': template_id})
         return ret['value']['body_html']
 
-    def get_connection_infos(self):
+    def get_connection_infos(self, new_api=False):
         self.host = self.env
-        self.sock_common = xmlrpclib.ServerProxy(self.host + '/xmlrpc/common')
-        self.sock_db = xmlrpclib.ServerProxy(self.host + '/xmlrpc/db')
+        url = self.host + '/xmlrpc/'
+        if new_api:
+            url += '2/'
+        self.sock_common = xmlrpclib.ServerProxy(url + 'common')
+        self.sock_db = xmlrpclib.ServerProxy(url + 'db')
         self.uid = self.sock_common.login(self.db, self.user, self.pwd)
-        self.sock = xmlrpclib.ServerProxy(self.host + '/xmlrpc/object')
+        self.sock = xmlrpclib.ServerProxy(url + 'object')
 
     def load(self, model):
         self.model = model
