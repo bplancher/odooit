@@ -1,6 +1,29 @@
 OdooIT
 ======
 
+Example:
+--------
+
+from odooit import OdooITRPC
+
+```python
+# initialize the object
+host = 'http://localhost:8069'
+db = 'odoo'
+user = 'user'
+pwd = 'password'
+sock = OdooITRPC(host, db, user, pwd, debug=True)
+# the constructor did the authentication step, the object is now usable
+# before doing anything else, you NEED to call load() method
+# then, call whatever public ORM method available on the loaded model
+# this internally calls execute_kw(db, uid, pwd, 'res.users', 'context_get', [], {})
+context = sock.load('res.users).context_get()
+# this internally calls execute_kw(db, uid, pwd, 'res.users', 'read', [[]], {'context': context})
+user_infos = sock.read(sock.uid, [], context=context)
+print user_infos.get('name', '')
+# >> u'username'
+```
+
 Short presentation
 ------------------
 
@@ -50,25 +73,3 @@ The only goal of this method is to force Odoo to initialize all of its instances
 For any other methods, the object will execute the following command (as you would do with pure xmlrpclib call):
 
 xmlrpc_server.execute_kw(db, uid, password, model, method_name, args, kwargs)
-
-#### Example:
-
-from odooit import OdooITRPC
-
-```python
-# initialize the object
-host = 'http://localhost:8069'
-db = 'odoo'
-user = 'user'
-pwd = 'password'
-sock = OdooITRPC(host, db, user, pwd, debug=True)
-# the constructor did the authentication step, the object is now usable
-# before doing anything else, you NEED to call load() method
-# then, call whatever public ORM method available on the loaded model
-# this internally calls execute_kw(db, uid, pwd, 'res.users', 'context_get', [], {})
-context = sock.load('res.users).context_get()
-# this internally calls execute_kw(db, uid, pwd, 'res.users', 'read', [[]], {'context': context})
-user_infos = sock.read(sock.uid, [], context=context)
-print user_infos.get('name', '')
-# >> u'username'
-```
