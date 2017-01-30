@@ -1,12 +1,18 @@
 OdooIT
 ======
 
+Installation
+-------------
+
+```
+pip install odooit
+```
+
 Example:
 --------
 
-from odooit import OdooITRPC
-
 ```python
+from odooit import OdooITRPC
 # initialize the object
 host = 'http://localhost:8069'
 db = 'odoo'
